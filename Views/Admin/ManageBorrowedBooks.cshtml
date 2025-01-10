@@ -1,0 +1,28 @@
+﻿@model IEnumerable<eLibraryApp.Models.BorrowedBook>
+
+<div class="container py-5">
+    <h2>Borrowed Books</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>User</th>
+                <th>Borrow Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var borrowedBook in Model)
+            {
+                <tr>
+                    <td>@borrowedBook.Book.Title</td>
+                    <td>@borrowedBook.User.FirstName @borrowedBook.User.LastName</td>
+                    <td>@borrowedBook.BorrowDate.ToString("MM/dd/yyyy")</td>
+                    <td>@borrowedBook.DueDate.ToString("MM/dd/yyyy")</td>
+                    <td>@(borrowedBook.IsReturned ? "Returned" : "Borrowed")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

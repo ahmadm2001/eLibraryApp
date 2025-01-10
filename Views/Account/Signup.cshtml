@@ -1,0 +1,105 @@
+﻿@model eLibraryApp.Models.User
+
+<div class="container py-5" style="background-color: #f8faff;">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <h2 class="mb-4 text-center" style="font-weight: bold; color: #2c3e50;">Signup</h2>
+
+            <form asp-action="Signup" method="post">
+                <!-- First Name -->
+                <div class="mb-3">
+                    <label for="FirstName" class="form-label" style="font-weight: bold;">First Name</label>
+                    <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="Enter your first name" required />
+                </div>
+
+                <!-- Last Name -->
+                <div class="mb-3">
+                    <label for="LastName" class="form-label" style="font-weight: bold;">Last Name</label>
+                    <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Enter your last name" required />
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="Email" class="form-label" style="font-weight: bold;">Email</label>
+                    <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter your email address" required />
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label for="Password" class="form-label" style="font-weight: bold;">Password</label>
+                    <input type="password" class="form-control" id="Password" name="Password" placeholder="Create a strong password" required />
+                </div>
+
+                <!-- Role -->
+                <div class="mb-4">
+                    <label for="Role" class="form-label" style="font-weight: bold;">Role</label>
+                    @if (ViewBag.AdminExists)
+                    {
+                        <!-- Admin exists: Disable dropdown and auto-select User -->
+                        <select class="form-control" id="Role" name="Role" disabled>
+                            <option value="User" selected>User</option>
+                        </select>
+                        <!-- Hidden input to submit User role -->
+                        <input type="hidden" name="Role" value="User" />
+                    }
+                    else
+                    {
+                        <!-- Admin does not exist: Allow both options -->
+                        <select class="form-control" id="Role" name="Role" required>
+                            <option value="User">User</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    }
+                </div>
+
+                <!-- Error Message -->
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <p class="text-danger text-center mb-4">@ViewBag.ErrorMessage</p>
+                }
+
+                <!-- Signup Button -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary px-4">Signup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f8faff;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .card {
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-primary {
+        background-color: #3498db;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+
+    .form-label {
+        font-weight: bold;
+        color: #34495e;
+    }
+
+    .text-danger {
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+</style>

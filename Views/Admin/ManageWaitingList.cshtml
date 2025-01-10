@@ -1,0 +1,26 @@
+﻿@model IEnumerable<eLibraryApp.Models.WaitingListEntry>
+
+<div class="container py-5">
+    <h2>Waiting Lists</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>User</th>
+                <th>Request Date</th>
+                <th>Notification Sent</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model)
+            {
+                <tr>
+                    <td>@entry.Book.Title</td>
+                    <td>@entry.User.FirstName @entry.User.LastName</td>
+                    <td>@entry.RequestedDate.ToString("MM/dd/yyyy")</td>
+                    <td>@(entry.NotificationSent ? "Yes" : "No")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

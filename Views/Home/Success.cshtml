@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Order Success";
+}
+
+<div class="container py-5" style="background-color: #f8faff;">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-body text-center">
+            <h2 class="mb-4" style="font-weight: bold; color: #2c3e50;">Order Completed Successfully!</h2>
+            <p style="font-size: 1.1rem; color: #34495e;">
+                Thank you for your purchase. You can now access your books in your library.
+            </p>
+            <a href="@Url.Action("Library", "Account")" class="btn btn-primary btn-lg mt-3">
+                <i class="fas fa-book-reader"></i> Go to Library
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-primary {
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding: 10px 15px;
+        border-radius: 30px;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+</style>

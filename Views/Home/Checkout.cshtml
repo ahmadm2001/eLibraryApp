@@ -1,0 +1,165 @@
+﻿@model IEnumerable<eLibraryApp.Models.Book>
+
+@{
+    ViewData["Title"] = "Checkout";
+    var totalAmount = Model.Sum(book => book.IsDiscountActive && book.DiscountedPrice.HasValue
+        ? book.DiscountedPrice.Value
+        : book.BuyPrice);
+}
+
+<div class="container py-5">
+    <h2 class="text-center mb-4" style="font-weight: bold; color: #2c3e50;">Checkout</h2>
+    <div class="row">
+        <!-- Order Summary -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Order Summary</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless align-middle">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var book in Model)
+                            {
+                                var price = book.IsDiscountActive && book.DiscountedPrice.HasValue
+                                ? book.DiscountedPrice.Value
+                                : book.BuyPrice;
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="@book.CoverImageUrl" alt="Cover" class="img-thumbnail me-3" style="width: 50px;" />
+                                            <span>@book.Title</span>
+                                        </div>
+                                    </td>
+                                    <td>@price.ToString("C")</td>
+                                    <td>1</td>
+                                    <td>@price.ToString("C")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Payment Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h6>Order Total:</h6>
+                        <p class="fs-4 fw-bold text-success">@totalAmount.ToString("C")</p>
+                    </div>
+                    <div id="paypal-btn" class="d-grid"></div>
+                    @* <button id="completeOrderButton" class="btn btn-primary btn-lg d-block mt-3"> *@
+                    @*     <i class="fas fa-check-circle"></i> Order Completed *@
+                    @* </button> *@
+                    <form asp-action="CompleteOrder" method="post">
+                        <button type="submit" class="btn btn-primary">Complete Order</button>
+                    </form>
+
+                    <a href="@Url.Action("Cart", "Home")" class="btn btn-secondary btn-lg d-block mt-3">
+                        <i class="fas fa-arrow-left"></i> Back to Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let total = @Html.Raw(totalAmount);
+
+        // PayPal Button Rendering
+        paypal.Button.render({
+            env: 'sandbox', // Use 'sandbox' for testing
+            client: {
+                sandbox: 'YOUR_PAYPAL_SANDBOX_CLIENT_ID', // Replace with your sandbox client ID
+            },
+            style: {
+                size: 'responsive',
+                color: 'gold',
+                shape: 'pill',
+                height: 50
+            },
+            commit: true,
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: total,
+                            currency: 'USD'
+                        }
+                    }]
+                });
+            },
+            onAuthorize: function (data, actions) {
+                return actions.payment.execute().then(function () {
+                    // Clear cart after payment
+                    fetch('/Home/ClearCart', { method: 'POST' })
+                        .then(() => {
+                            window.location.href = '@Url.Action("PaymentSuccess", "Home")';
+                        });
+                });
+            },
+            onCancel: function (data) {
+                alert('Payment was canceled.');
+            },
+            onError: function (err) {
+                alert('An error occurred during payment.');
+                console.error(err);
+            }
+        }, '#paypal-btn');
+
+        // Order Completed Button
+        document.getElementById("completeOrderButton").addEventListener("click", function () {
+            fetch('/Home/ClearCart', { method: 'POST' })
+                .then(() => {
+                    window.location.href = '@Url.Action("PaymentSuccess", "Home")';
+                });
+        });
+    });
+</script>
+
+<style>
+    .table-borderless th, .table-borderless td {
+        border: none;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .btn-primary, .btn-secondary {
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding: 15px 20px;
+        border-radius: 30px;
+        width: 100%;
+    }
+
+    #paypal-btn {
+        width: 100%;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-secondary:hover {
+        background-color: #7f8c8d;
+    }
+</style>

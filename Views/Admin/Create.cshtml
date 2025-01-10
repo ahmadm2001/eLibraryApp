@@ -1,0 +1,145 @@
+﻿@model eLibraryApp.Models.Book
+
+<div class="container py-5" style="background-color: #f8faff;">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 800px;">
+        <div class="card-body">
+            <h2 class="mb-4 text-center" style="font-weight: bold; color: #2c3e50;">Create a New Book</h2>
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                <!-- Cover Image -->
+                <div class="mb-3">
+                    <label for="CoverImageUrl" class="form-label" style="font-weight: bold;">Cover Image URL</label>
+                    <input type="url" class="form-control" id="CoverImageUrl" name="CoverImageUrl" placeholder="Enter cover image URL" required />
+                </div>
+
+                <!-- Title -->
+                <div class="mb-3">
+                    <label asp-for="Title" class="form-label" style="font-weight: bold;"></label>
+                    <input asp-for="Title" class="form-control" placeholder="Enter book title" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <!-- Author -->
+                <div class="mb-3">
+                    <label asp-for="Author" class="form-label" style="font-weight: bold;"></label>
+                    <input asp-for="Author" class="form-control" placeholder="Enter author's name" />
+                    <span asp-validation-for="Author" class="text-danger"></span>
+                </div>
+
+                <!-- Publisher -->
+                <div class="mb-3">
+                    <label asp-for="Publisher" class="form-label" style="font-weight: bold;"></label>
+                    <input asp-for="Publisher" class="form-control" placeholder="Enter publisher's name" />
+                    <span asp-validation-for="Publisher" class="text-danger"></span>
+                </div>
+
+                <!-- Buy Price -->
+                <div class="mb-3">
+                    <label asp-for="BuyPrice" class="form-label" style="font-weight: bold;"></label>
+                    <input asp-for="BuyPrice" class="form-control" placeholder="Enter buy price" />
+                    <span asp-validation-for="BuyPrice" class="text-danger"></span>
+                </div>
+
+                <!-- Borrow Price -->
+                <div class="mb-3">
+                    <label asp-for="BorrowPrice" class="form-label" style="font-weight: bold;"></label>
+                    <input asp-for="BorrowPrice" class="form-control" placeholder="Enter borrow price" />
+                    <span asp-validation-for="BorrowPrice" class="text-danger"></span>
+                </div>
+
+                <!-- Year of Publishing -->
+                <div class="mb-3">
+                    <label asp-for="YearOfPublishing" class="form-label" style="font-weight: bold;"></label>
+                    <input asp-for="YearOfPublishing" class="form-control" placeholder="Enter year of publishing" />
+                    <span asp-validation-for="YearOfPublishing" class="text-danger"></span>
+                </div>
+
+                <!-- Format -->
+                <div class="mb-3">
+                    <label asp-for="Format" class="form-label" style="font-weight: bold;"></label>
+                    <select asp-for="Format" class="form-control" asp-items="@(new SelectList(new List<string> { "ePub", "FB2", "Mobi", "PDF" }))">
+                        <option value="">-- Select Format --</option>
+                    </select>
+                    <span asp-validation-for="Format" class="text-danger"></span>
+                </div>
+
+                <!-- Age Limit -->
+                <div class="mb-3">
+                    <label asp-for="AgeLimit" class="form-label" style="font-weight: bold;"></label>
+                    <input asp-for="AgeLimit" class="form-control" placeholder="Enter age limit" />
+                    <span asp-validation-for="AgeLimit" class="text-danger"></span>
+                </div>
+
+                <!-- Checkboxes -->
+                <div class="form-check mb-3">
+                    <input asp-for="IsAvailableForBorrow" class="form-check-input" type="checkbox" />
+                    <label asp-for="IsAvailableForBorrow" class="form-check-label" style="font-weight: bold;"></label>
+                    <span asp-validation-for="IsAvailableForBorrow" class="text-danger"></span>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input asp-for="IsAvailableForPurchase" class="form-check-input" type="checkbox" />
+                    <label asp-for="IsAvailableForPurchase" class="form-check-label" style="font-weight: bold;"></label>
+                    <span asp-validation-for="IsAvailableForPurchase" class="text-danger"></span>
+                </div>
+
+                <!-- Available Copies -->
+                @* <div class="mb-3">
+                    <label asp-for="AvailableCopies" class="form-label" style="font-weight: bold;"></label>
+                    <input asp-for="AvailableCopies" class="form-control" placeholder="Enter number of available copies" />
+                    <span asp-validation-for="AvailableCopies" class="text-danger"></span>
+                </div> *@
+
+                <!-- Genre -->
+                <div class="mb-4">
+                    <label for="Genre" class="form-label" style="font-weight: bold;">Genre</label>
+                    <input type="text" class="form-control" id="Genre" name="Genre" placeholder="Enter genre" required />
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-between">
+                    <input type="submit" value="Create" class="btn btn-primary px-4" />
+                    <a asp-action="Index" class="btn btn-secondary px-4">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        background-color: #f8faff;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .card {
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-primary {
+        background-color: #3498db;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+
+    .btn-secondary {
+        background-color: #95a5a6;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+</style>

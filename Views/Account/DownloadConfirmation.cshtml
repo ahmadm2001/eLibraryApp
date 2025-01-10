@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Download Confirmation";
+}
+
+<div class="container text-center py-5" style="background-color: #f9f9f9; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <h1 class="display-5 text-success" style="font-weight: bold;">Email Sent!</h1>
+    <p class="lead text-muted mt-3 mb-4" style="font-size: 1.2rem;">
+        The PDF file for <strong>@ViewBag.BookTitle</strong> has been sent to your email.<br />
+        Please check your inbox for the download link.
+    </p>
+    <a asp-action="Library" asp-controller="Account" class="btn btn-primary btn-lg d-flex align-items-center justify-content-center" style="font-size: 1.1rem;">
+        <i class="fas fa-arrow-left me-2"></i> Back to Library
+    </a>
+</div>
+
+<style>
+    body {
+        background-color: #f9f9f9;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        border: none;
+        font-weight: bold;
+        padding: 0.75rem 1.5rem;
+    }
+
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+
+    .container {
+        max-width: 800px;
+    }
+</style>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

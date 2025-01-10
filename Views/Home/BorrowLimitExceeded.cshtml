@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Borrow Limit Exceeded";
+}
+
+<div class="container text-center py-5" style="background-color: #f9f9f9; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <h1 class="display-4" style="font-weight: bold; color: #e74c3c;">Borrow Limit Exceeded</h1>
+    <p class="lead text-muted mt-3 mb-4" style="font-size: 1.2rem;">
+        You cannot borrow more than <strong>3 books</strong> at the same time.<br />
+        Please return one of your borrowed books to borrow a new one.
+    </p>
+    <a asp-action="Library" asp-controller="Account" class="btn btn-primary btn-lg d-flex align-items-center justify-content-center" style="font-size: 1.1rem;">
+        <i class="fas fa-book me-2"></i> Go to My Library
+    </a>
+</div>
+
+<style>
+    body {
+        background-color: #f9f9f9;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        border: none;
+        font-weight: bold;
+        padding: 0.75rem 1.5rem;
+    }
+
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+
+    .container {
+        max-width: 800px;
+    }
+</style>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

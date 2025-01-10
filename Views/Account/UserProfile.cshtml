@@ -1,0 +1,84 @@
+﻿@model eLibraryApp.Models.User
+
+<div class="container py-5" style="background-color: #f8faff;">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <h2 class="mb-4 text-center" style="font-weight: bold; color: #2c3e50;">User Profile</h2>
+
+            <form asp-action="UpdateProfile" method="post">
+                <input type="hidden" name="UserId" value="@Model.UserId" />
+
+                <!-- First Name -->
+                <div class="mb-3">
+                    <label for="FirstName" class="form-label" style="font-weight: bold;">First Name</label>
+                    <input type="text" class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" placeholder="Enter first name" required />
+                </div>
+
+                <!-- Last Name -->
+                <div class="mb-3">
+                    <label for="LastName" class="form-label" style="font-weight: bold;">Last Name</label>
+                    <input type="text" class="form-control" id="LastName" name="LastName" value="@Model.LastName" placeholder="Enter last name" required />
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="Email" class="form-label" style="font-weight: bold;">Email</label>
+                    <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" placeholder="Enter email address" required />
+                </div>
+
+                <!-- Password -->
+                <div class="mb-4">
+                    <label for="Password" class="form-label" style="font-weight: bold;">New Password (Optional)</label>
+                    <input type="password" class="form-control" id="Password" name="Password" placeholder="Enter a new password if you wish to change it" />
+                </div>
+
+                <!-- Update Button -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary px-4">Update Profile</button>
+                </div>
+            </form>
+
+            <!-- Success Message -->
+            @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+            {
+                <p class="text-success mt-3 text-center">@ViewBag.SuccessMessage</p>
+            }
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        background-color: #f8faff;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .card {
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-primary {
+        background-color: #3498db;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+
+    .form-label {
+        font-weight: bold;
+        color: #34495e;
+    }
+
+    .text-success {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+</style>

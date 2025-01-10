@@ -1,0 +1,95 @@
+﻿@model eLibraryApp.Models.Book
+
+<div class="container py-5" style="background-color: #f8faff;">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 800px;">
+        <div class="card-body">
+            <h2 class="mb-4 text-center" style="font-weight: bold; color: #2c3e50;">Book Details</h2>
+
+            <!-- Book Details -->
+            <dl class="row">
+                <dt class="col-sm-4" style="font-weight: bold;">Title</dt>
+                <dd class="col-sm-8">@Model.Title</dd>
+
+                <dt class="col-sm-4" style="font-weight: bold;">Author</dt>
+                <dd class="col-sm-8">@Model.Author</dd>
+
+                <dt class="col-sm-4" style="font-weight: bold;">Publisher</dt>
+                <dd class="col-sm-8">@Model.Publisher</dd>
+
+                <dt class="col-sm-4" style="font-weight: bold;">Buy Price</dt>
+                <dd class="col-sm-8">@Model.BuyPrice.ToString("C")</dd>
+
+                <dt class="col-sm-4" style="font-weight: bold;">Borrow Price</dt>
+                <dd class="col-sm-8">@Model.BorrowPrice?.ToString("C")</dd>
+
+                <dt class="col-sm-4" style="font-weight: bold;">Year of Publishing</dt>
+                <dd class="col-sm-8">@Model.YearOfPublishing</dd>
+
+                <dt class="col-sm-4" style="font-weight: bold;">Format</dt>
+                <dd class="col-sm-8">@Model.Format</dd>
+
+                <dt class="col-sm-4" style="font-weight: bold;">Age Limit</dt>
+                <dd class="col-sm-8">@Model.AgeLimit</dd>
+
+                <dt class="col-sm-4" style="font-weight: bold;">Available for Borrow</dt>
+                <dd class="col-sm-8">@((Model.IsAvailableForBorrow) ? "Yes" : "No")</dd>
+
+                <dt class="col-sm-4" style="font-weight: bold;">Available for Purchase</dt>
+                <dd class="col-sm-8">@((Model.IsAvailableForPurchase) ? "Yes" : "No")</dd>
+
+                <dt class="col-sm-4" style="font-weight: bold;">Available Copies</dt>
+                <dd class="col-sm-8">@Model.AvailableCopies</dd>
+            </dl>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="Edit" asp-route-id="@Model?.BookId" class="btn btn-warning px-4">Edit</a>
+                <a asp-action="Index" class="btn btn-secondary px-4">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        background-color: #f8faff;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .card {
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-warning {
+        background-color: #f39c12;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-warning:hover {
+            background-color: #d35400;
+        }
+
+    .btn-secondary {
+        background-color: #95a5a6;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+    dt {
+        color: #2c3e50;
+    }
+
+    dd {
+        color: #34495e;
+    }
+</style>

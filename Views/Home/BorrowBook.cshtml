@@ -1,0 +1,54 @@
+﻿@model eLibraryApp.Models.Book
+
+<div class="container py-5" style="background-color: #f8faff;">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-body text-center">
+            <h2 class="mb-4" style="font-weight: bold; color: #2c3e50;">Confirm Borrow</h2>
+            <p style="font-size: 1.1rem; color: #34495e;">
+                Are you sure you want to borrow <strong>@Model.Title</strong> by <strong>@Model.Author</strong>?<br />
+                <span style="color: #e74c3c;">Please note the borrowing period is 14 days.</span>
+            </p>
+
+            <form method="post" asp-action="ConfirmBorrowBook" asp-route-id="@Model.BookId" class="mt-4">
+                <button type="submit" class="btn btn-success px-4 me-2">Confirm Borrow</button>
+                <button type="button" class="btn btn-secondary px-4" onclick="history.back();">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        background-color: #f8faff;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .card {
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-success {
+        background-color: #27ae60;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-success:hover {
+            background-color: #1e8449;
+        }
+
+    .btn-secondary {
+        background-color: #95a5a6;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+</style>

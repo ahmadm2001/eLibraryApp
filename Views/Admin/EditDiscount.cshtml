@@ -1,0 +1,74 @@
+﻿@model eLibraryApp.Models.Book
+
+<div class="container py-5" style="background-color: #f8faff;">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <h2 class="mb-4 text-center" style="font-weight: bold; color: #2c3e50;">Edit Discount for <em>@Model.Title</em></h2>
+
+            <form asp-action="EditDiscount" method="post">
+                <input type="hidden" name="id" value="@Model.BookId" />
+
+                <!-- Discounted Price -->
+                <div class="mb-3">
+                    <label for="discountedPrice" class="form-label" style="font-weight: bold;">Discounted Price</label>
+                    <input type="number" step="0.01" class="form-control" id="discountedPrice" name="discountedPrice"
+                           value="@Model.DiscountedPrice" placeholder="Enter the discounted price" />
+                </div>
+
+                <!-- Discount Start Date -->
+                <div class="mb-3">
+                    <label for="discountStartDate" class="form-label" style="font-weight: bold;">Discount Start Date</label>
+                    <input type="date" class="form-control" id="discountStartDate" name="discountStartDate"
+                           value="@Model.DiscountStartDate?.ToString("yyyy-MM-dd")" placeholder="Select the discount start date" />
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-primary px-4">Save</button>
+                    <button type="button" class="btn btn-secondary px-4" onclick="history.back();">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        background-color: #f8faff;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .card {
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-primary {
+        background-color: #3498db;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+
+    .btn-secondary {
+        background-color: #95a5a6;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+    .form-label {
+        font-weight: bold;
+        color: #34495e;
+    }
+</style>

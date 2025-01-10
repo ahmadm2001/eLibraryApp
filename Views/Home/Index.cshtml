@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid py-5" style="background-color: #f8faff;">
+    <div class="text-center mb-4">
+        <h1 class="display-4" style="font-weight: bold; color: #2c3e50;">Welcome to Your Online eBook Shop</h1>
+        <p class="lead" style="color: #34495e;">Discover, Buy, and Borrow Thousands of eBooks</p>
+    </div>
+
+    <div class="row align-items-center">
+        <!-- Left Side: Text -->
+        <div class="col-md-6 text-center text-md-start">
+            <h2 style="font-weight: bold; color: #3498db;">Your One-Stop eBook Destination</h2>
+            <p style="font-size: 1.2rem; color: #34495e;">
+                Browse through our extensive collection of eBooks across various genres, authors, and formats. Whether you want to buy, borrow, or explore, we've got you covered!
+            </p>
+            <a href="/Home/Catalog" class="btn btn-primary btn-lg px-4 mt-3">Explore Catalog</a>
+        </div>
+
+        <!-- Right Side: Image -->
+        <div class="col-md-6 text-center">
+            <img src="https://kitaboo.com/wp-content/uploads/2022/10/ebook-store.jpg" alt="Explore Books" class="img-fluid rounded shadow-lg" />
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="mt-5">
+        <h3 class="text-center" style="font-weight: bold; color: #2c3e50;">Why Choose Us?</h3>
+        <div class="row mt-4">
+            <div class="col-md-4 text-center">
+                <i class="fas fa-book-open fa-3x" style="color: #3498db;"></i>
+                <h5 class="mt-3" style="font-weight: bold; color: #34495e;">Diverse Collection</h5>
+                <p style="color: #7f8c8d;">From classics to modern bestsellers, find books for every reader.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <i class="fas fa-dollar-sign fa-3x" style="color: #e74c3c;"></i>
+                <h5 class="mt-3" style="font-weight: bold; color: #34495e;">Affordable Prices</h5>
+                <p style="color: #7f8c8d;">Enjoy competitive pricing on all your favorite titles.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <i class="fas fa-download fa-3x" style="color: #27ae60;"></i>
+                <h5 class="mt-3" style="font-weight: bold; color: #34495e;">Instant Downloads</h5>
+                <p style="color: #7f8c8d;">Get instant access to your purchased or borrowed eBooks.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional Font Awesome Icons for Features Section -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<style>
+    body {
+        background-color: #f8faff;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    h1, h2, h3 {
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+
+    .img-fluid {
+        border-radius: 10px;
+    }
+
+    .fa-3x {
+        transition: transform 0.3s ease;
+    }
+
+        .fa-3x:hover {
+            transform: scale(1.2);
+        }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-md-start {
+        text-align: left;
+    }
+</style>

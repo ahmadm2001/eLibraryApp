@@ -1,0 +1,70 @@
+﻿@model eLibraryApp.Models.User
+
+<div class="container py-5" style="background-color: #f8faff;">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 400px;">
+        <div class="card-body">
+            <h2 class="mb-4 text-center" style="font-weight: bold; color: #2c3e50;">Login</h2>
+
+            <form asp-action="Login" method="post">
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label" style="font-weight: bold;">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required />
+                </div>
+
+                <!-- Password -->
+                <div class="mb-4">
+                    <label for="password" class="form-label" style="font-weight: bold;">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required />
+                </div>
+
+                <!-- Error Message -->
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <p class="text-danger text-center mb-4">@ViewBag.ErrorMessage</p>
+                }
+
+                <!-- Login Button -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary px-4">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        background-color: #f8faff;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .card {
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-primary {
+        background-color: #3498db;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+
+    .form-label {
+        font-weight: bold;
+        color: #34495e;
+    }
+
+    .text-danger {
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+</style>

@@ -1,0 +1,14 @@
+﻿@model eLibraryApp.Models.BorrowedBook
+
+@{
+    ViewBag.Title = "Return Book";
+}
+
+<h2>Return Book</h2>
+
+<p>Are you sure you want to return the book <strong>@Model.Book.Title</strong>?</p>
+
+<form asp-action="ConfirmReturnBook" asp-route-id="@Model.BorrowedBookId" method="post">
+    <button type="submit" class="btn btn-danger">Return Book</button>
+    <a asp-action="Library" asp-controller="Account" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,198 @@
+﻿@model eLibraryApp.Models.Book
+
+<div class="container py-5" style="background-color: #f9fbfd;">
+    <!-- Book Details Section -->
+    <div class="row g-5 align-items-center">
+        <div class="col-md-4 text-center">
+            <img src="@Model.CoverImageUrl" alt="Book Cover" class="img-fluid rounded shadow" style="max-height: 400px; object-fit: cover; border: 3px solid #e3e6ea;" />
+        </div>
+        <div class="col-md-8">
+            <h1 class="mb-4" style="font-weight: bold; color: #2c3e50;">@Model.Title</h1>
+            <ul class="list-unstyled">
+                <li class="mb-2"><strong>Author:</strong> <span class="text-muted">@Model.Author</span></li>
+                <li class="mb-2"><strong>Genre:</strong> <span class="text-muted">@Model.Genre</span></li>
+                <li class="mb-2"><strong>Publisher:</strong> <span class="text-muted">@Model.Publisher</span></li>
+                <li class="mb-2"><strong>Year of Publishing:</strong> <span class="text-muted">@Model.YearOfPublishing</span></li>
+                <li class="mb-2"><strong>Price:</strong> <span class="text-success">@Model.BuyPrice.ToString("C")</span></li>
+                <li class="mb-2"><strong>Borrow Price:</strong> <span class="text-success">@Model.BorrowPrice?.ToString("C")</span></li>
+                <li class="mb-2"><strong>Age Limit:</strong> <span class="text-warning">@Model.AgeLimit</span></li>
+                <li class="mb-2"><strong>Available Copies:</strong> <span class="text-primary">@Model.AvailableCopies</span></li>
+            </ul>
+            <div class="mt-4 d-flex gap-3">
+                @if (Model.IsAvailableForPurchase)
+                {
+                    <form method="post" asp-action="BuyBook" asp-route-id="@Model.BookId">
+                        <button type="submit" class="btn btn-success px-4 py-2" style="font-size: 1rem;">
+                            <i class="fas fa-cart-plus me-2"></i>Buy Now
+                        </button>
+                    </form>
+                }
+                @if (Model.IsAvailableForBorrow)
+                {
+                    <form method="post" asp-action="BorrowBook" asp-route-id="@Model.BookId">
+                        <button type="submit" class="btn btn-warning px-4 py-2" style="font-size: 1rem;">
+                            <i class="fas fa-book-open me-2"></i>Borrow
+                        </button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Ratings Section -->
+    <div class="mt-5">
+        <h2 class="text-center mb-4" style="font-weight: bold; color: #2c3e50;">Ratings and Reviews</h2>
+        <div id="ratings-container" class="row g-3">
+            @if (Model.Ratings?.Count > 0)
+            {
+                @foreach (var rating in Model.Ratings.OrderByDescending(r => r.RatingDate))
+                {
+                    <div class="col-md-12">
+                        <div class="card shadow-sm border-0 rounded">
+                            <div class="card-body">
+                                <h5 class="text-warning mb-2">
+                                    @for (int i = 0; i < rating.RatingValue; i++)
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
+                                </h5>
+                                <p class="text-muted mb-2">@rating.Feedback</p>
+                                <small class="text-secondary">By <strong>@rating.User.FirstName</strong> on @rating.RatingDate.ToShortDateString()</small>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-center text-muted">No reviews yet. Be the first to leave a review!</p>
+            }
+        </div>
+
+        <!-- Submit Rating -->
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="mt-5">
+                <h3 class="mb-3" style="font-weight: bold; color: #2c3e50;">Leave a Review</h3>
+                <form id="rating-form" method="post" asp-action="SubmitRating" class="shadow-sm p-4 rounded" style="background-color: #ffffff;">
+                    <input type="hidden" name="bookId" value="@Model.BookId" />
+                    <div class="mb-3">
+                        <label for="ratingValue" class="form-label">Your Rating:</label>
+                        <select class="form-select" name="ratingValue" required>
+                            <option value="5">5 - Excellent</option>
+                            <option value="4">4 - Good</option>
+                            <option value="3">3 - Average</option>
+                            <option value="2">2 - Poor</option>
+                            <option value="1">1 - Terrible</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="feedback" class="form-label">Your Review:</label>
+                        <textarea class="form-control" name="feedback" rows="3" maxlength="500" placeholder="Write your feedback here..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary px-4 py-2">
+                        <i class="fas fa-paper-plane me-2"></i>Submit Review
+                    </button>
+                </form>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted text-center">You must be logged in to leave a review. <a href="/Account/Login">Login here</a>.</p>
+        }
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f9fbfd;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-primary {
+        background-color: #3498db;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+
+    .btn-success {
+        background-color: #27ae60;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-success:hover {
+            background-color: #1e8449;
+        }
+
+    .btn-warning {
+        background-color: #f39c12;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-warning:hover {
+            background-color: #d35400;
+        }
+
+    .text-warning .fas {
+        color: #f39c12;
+    }
+</style>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+    document.getElementById("rating-form").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Add the new rating to the ratings container
+                const ratingsContainer = document.getElementById("ratings-container");
+                const newRating = `
+                    <div class="col-md-12">
+                        <div class="card shadow-sm border-0 rounded">
+                            <div class="card-body">
+                                <h5 class="text-warning mb-2">
+                                    ${'★'.repeat(data.ratingValue)}
+                                </h5>
+                                <p class="text-muted mb-2">${data.feedback}</p>
+                                <small class="text-secondary">By <strong>${data.userName}</strong> on ${data.date}</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                ratingsContainer.insertAdjacentHTML("afterbegin", newRating);
+
+                // Clear the form
+                form.reset();
+            } else {
+                alert(data.message || "Something went wrong. Please try again.");
+            }
+        })
+        .catch(error => {
+            console.error("Error submitting review:", error);
+        });
+    });
+</script>

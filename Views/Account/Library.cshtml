@@ -1,0 +1,173 @@
+﻿@model eLibraryApp.Models.User
+
+<div class="container py-5" style="background-color: #f0f8ff;">
+    <h2 class="text-center mb-5" style="font-weight: bold; color: #2c3e50;">Your Library</h2>
+
+    <!-- Borrowed Books Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3 class="section-title">Borrowed Books</h3>
+        </div>
+    </div>
+    <div class="row g-4">
+        @if (Model.BorrowedBooks?.Count > 0)
+        {
+            @foreach (var borrowedBook in Model.BorrowedBooks.Where(bb => !bb.IsReturned))
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="position-relative">
+                            <img src="@borrowedBook.Book.CoverImageUrl" class="card-img-top" alt="@borrowedBook.Book.Title" />
+                            <span class="badge bg-warning text-dark position-absolute badge-due">Due: @borrowedBook.DueDate.ToString("MM/dd/yyyy")</span>
+                        </div>
+                        <div class="card-body d-flex flex-column align-items-center text-center">
+                            <h5 class="card-title">@borrowedBook.Book.Title</h5>
+                            <p class="card-author">@borrowedBook.Book.Author</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between align-items-center bg-light">
+                            <a href="/downloads/@borrowedBook.BookId" class="btn btn-primary btn-sm d-flex align-items-center">
+                                <i class="fas fa-download me-2"></i>Download
+                            </a>
+                            <form asp-action="ReturnBook" asp-controller="Home" method="post" class="m-0">
+                                <input type="hidden" name="id" value="@borrowedBook.BorrowedBookId" />
+                                <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center">
+                                    <i class="fas fa-undo me-2"></i>Return
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-muted text-center">No borrowed books available.</p>
+        }
+    </div>
+
+    <!-- Purchased Books Section -->
+    <div class="row mt-5 mb-4">
+        <div class="col-12">
+            <h3 class="section-title">Purchased Books</h3>
+        </div>
+    </div>
+    <div class="row g-4">
+        @if (Model.PurchasedBooks?.Count > 0)
+        {
+            @foreach (var purchasedBook in Model.PurchasedBooks)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="position-relative">
+                            <img src="@purchasedBook.Book.CoverImageUrl" class="card-img-top" alt="@purchasedBook.Book.Title" />
+                            <span class="badge bg-success position-absolute badge-purchased">Purchased</span>
+                        </div>
+                        <div class="card-body d-flex flex-column align-items-center text-center">
+                            <h5 class="card-title">@purchasedBook.Book.Title</h5>
+                            <p class="card-author">@purchasedBook.Book.Author</p>
+                        </div>
+                        <div class="card-footer text-center bg-light">
+                            <form asp-action="SendDownloadLink" asp-controller="Account" method="post" class="m-0">
+                                <input type="hidden" name="id" value="@purchasedBook.Book.BookId" />
+                                <button type="submit" class="btn btn-info btn-sm d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-download me-2"></i>Download
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-muted text-center">No purchased books available.</p>
+        }
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f0f8ff;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .section-title {
+        font-weight: bold;
+        color: #34495e;
+        text-decoration: underline;
+    }
+
+    .card {
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+    .badge {
+        padding: 0.4rem 0.6rem;
+        border-radius: 5px;
+        font-size: 0.9rem;
+    }
+
+    .badge-due {
+        top: 10px;
+        right: 10px;
+    }
+
+    .badge-purchased {
+        top: 10px;
+        right: 10px;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+
+    .btn-info {
+        background-color: #27ae60;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-info:hover {
+            background-color: #1e8449;
+        }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+    .btn-sm {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .card-title {
+        font-weight: bold;
+        color: #2c3e50;
+        font-size: 1.1rem;
+    }
+
+    .card-author {
+        font-size: 0.9rem;
+        color: #7f8c8d;
+    }
+</style>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

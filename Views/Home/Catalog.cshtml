@@ -1,0 +1,167 @@
+﻿@model IEnumerable<eLibraryApp.Models.Book>
+
+<div class="container-fluid py-5" style="background-color: #f8faff;">
+    <h2 class="text-center mb-4" style="font-weight: bold; color: #2c3e50;">Explore Our Premium eBook Collection</h2>
+
+    <div class="row">
+        <!-- Search Filters (Left Sidebar) -->
+        <div class="col-md-3">
+            <div class="bg-white p-4 rounded shadow-sm">
+                <h5 class="mb-4" style="font-weight: bold; color: #34495e;">Search Filters</h5>
+                <form method="get" asp-action="Catalog">
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Author</label>
+                        <input type="text" class="form-control" id="author" name="author" placeholder="Search by Author" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="genre" class="form-label">Genre</label>
+                        <input type="text" class="form-control" id="genre" name="genre" placeholder="Search by Genre" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="priceRange" class="form-label">Max Price</label>
+                        <input type="number" class="form-control" id="priceRange" name="price" placeholder="Enter Max Price" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="onSale" class="form-label">On Sale</label>
+                        <select class="form-select" id="onSale" name="onSale">
+                            <option value="">All</option>
+                            <option value="true">Discounted</option>
+                            <option value="false">Full Price</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Book Cards (Right Content) -->
+        <div class="col-md-9">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                @foreach (var book in Model)
+                {
+                    <div class="col">
+                        <div class="card h-100 shadow border-0 rounded hover-effect" onclick="window.location.href='@Url.Action("BookDetails", "Home", new { id = book.BookId })'">
+                            @if (book.IsDiscountActive)
+                            {
+                                <span class="badge bg-danger position-absolute m-3">Limited Time Offer</span>
+                            }
+                            <div class="card-img-container" style="height: 250px; overflow: hidden;">
+                                <img src="@book.CoverImageUrl" class="card-img-top" alt="Book Cover" style="width: 100%; height: 100%; object-fit: cover;" />
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-center mb-2" style="font-weight: bold; color: #2c3e50;">@book.Title</h5>
+                                <p class="text-muted text-center mb-2">
+                                    <strong>Author:</strong> @book.Author<br />
+                                    <strong>Genre:</strong> @book.Genre<br />
+                                    <strong>Publisher:</strong> @book.Publisher<br />
+                                    <strong>Year:</strong> @book.YearOfPublishing<br />
+                                </p>
+                                <div class="text-center mt-auto">
+                                    @if (book.IsDiscountActive)
+                                    {
+                                        <p class="mb-2">
+                                            <span class="text-muted text-decoration-line-through">Buy: @book.BuyPrice.ToString("C")</span>
+                                            <span class="badge bg-success">Now: @book.DiscountedPrice.Value.ToString("C")</span><br />
+                                            <small class="text-danger countdown" data-endtime="@book.DiscountStartDate.Value.AddDays(7).ToString("o")">
+                                                Calculating...
+                                            </small>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p><span class="badge bg-primary">Buy: @book.BuyPrice.ToString("C")</span></p>
+                                    }
+                                    <span class="badge bg-warning text-dark">Borrow: @string.Format("{0:C}", book.BorrowPrice)</span>
+                                    @if (!book.IsAvailableForBorrow)
+                                    {
+                                        <span class="badge bg-secondary mt-2">Unavailable</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card-footer bg-light">
+                                <button class="btn btn-success btn-sm w-100" onclick="event.stopPropagation(); window.location.href='@Url.Action("AddToCart", "Home", new { id = book.BookId })'">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- User Feedback Section -->
+    <div class="mt-5 bg-white p-4 rounded shadow-sm">
+        <h3 class="text-center mb-4" style="font-weight: bold; color: #2c3e50;">What Users Think About Our Service</h3>
+        <div class="row g-3">
+            @if (ViewBag.UserFeedbacks != null && ViewBag.UserFeedbacks.Count > 0)
+            {
+                @foreach (var feedback in ViewBag.UserFeedbacks)
+                {
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="text-warning mb-2">
+                                    @for (int i = 0; i < feedback.RatingValue; i++)
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
+                                </h5>
+                                <p class="text-muted">@feedback.Feedback</p>
+                                <small class="text-secondary">By <strong>@feedback.UserName</strong> on @feedback.RatingDate.ToShortDateString()</small>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-center text-muted">No feedback yet. Be the first to share your thoughts!</p>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+    .hover-effect:hover {
+        background-color: #f0f9ff;
+        transition: background-color 0.3s ease;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const countdownElements = document.querySelectorAll(".countdown");
+        countdownElements.forEach((element) => {
+            const endTime = new Date(element.dataset.endtime);
+            function updateCountdown() {
+                const now = new Date();
+                const remainingTime = endTime - now;
+                if (remainingTime > 0) {
+                    const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+                    element.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s remaining`;
+                } else {
+                    element.textContent = "Expired";
+                    element.style.color = "gray";
+                }
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        });
+    });
+</script>

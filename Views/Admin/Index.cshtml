@@ -1,0 +1,94 @@
+﻿@model IEnumerable<eLibraryApp.Models.Book>
+
+<div class="container py-5" style="background-color: #f8faff;">
+    <h2 class="mb-4 text-center" style="font-weight: bold; color: #2c3e50;">Manage Books</h2>
+
+    <div class="mb-3 text-end">
+        <a class="btn btn-primary" asp-action="Create" style="font-weight: bold;">Create New</a>
+    </div>
+
+    <table class="table table-striped table-hover align-middle shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Cover</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Buy Price</th>
+                <th scope="col">Borrow Price</th>
+                <th scope="col">Year</th>
+                <th scope="col">Format</th>
+                <th scope="col">Age Limit</th>
+                <th scope="col">Borrowable</th>
+                <th scope="col">Purchasable</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@item.CoverImageUrl" alt="Book Cover" class="img-fluid" style="max-height: 60px; border-radius: 5px;" />
+                    </td>
+                    <td>@item.Title</td>
+                    <td>@item.Author</td>
+                    <td>@item.Publisher</td>
+                    <td>@item.BuyPrice.ToString("C")</td>
+                    <td>@item.BorrowPrice?.ToString("C")</td>
+                    <td>@item.YearOfPublishing</td>
+                    <td>@item.Format</td>
+                    <td>@item.AgeLimit</td>
+                    <td>@(item.IsAvailableForBorrow ? "Yes" : "No")</td>
+                    <td>@(item.IsAvailableForPurchase ? "Yes" : "No")</td>
+                    <td>@item.Genre</td>
+                    <td>
+                        <div class="d-grid gap-2">
+                            <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.BookId">Edit</a>
+                            <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.BookId">Details</a>
+                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<style>
+    .btn {
+        font-weight: bold;
+    }
+
+    .btn-sm {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.75rem;
+    }
+
+    .btn-warning {
+        background-color: #f39c12;
+        border: none;
+    }
+
+        .btn-warning:hover {
+            background-color: #d35400;
+        }
+
+    .btn-info {
+        background-color: #3498db;
+        border: none;
+    }
+
+        .btn-info:hover {
+            background-color: #217dbb;
+        }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+</style>
